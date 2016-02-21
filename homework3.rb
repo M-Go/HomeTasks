@@ -24,7 +24,7 @@ class Developer
     if can_work?
       task_completed
     else
-      raise ArgumentError, 'Нечего делать'
+      raise ArgumentError, 'Нечего делать!'
     end
   end
 
@@ -89,17 +89,23 @@ class SeniorDeveloper < Developer
       if chance == 0
         2.times { task_completed }
       else
-        puts 'Что-то лень'
+        puts 'Что-то лень...'
       end
     else
-      raise ArgumentError, 'Нечего делать'
+      raise ArgumentError, 'Нечего делать!'
     end
   end
 
+  def can_add_task?
+    @all_tasks.size < MAX_TASKS
+  end
+
   def task_completed
-    until @all_tasks.empty?
+    if can_work?
       puts '%s: выполнена задача "%s". Осталось задач: %i' % [@name, @all_tasks[0], @all_tasks.size - 1]
       @all_tasks.shift
+    else
+      raise ArgumentError, 'Нечего делать!'
     end
   end
 
