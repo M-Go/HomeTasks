@@ -160,15 +160,15 @@ attr_accessor :seniors, :developers, :juniors
     case sequence
     when :juniors
       @team[:juniors].map.each { |dev| dev.can_add_task? }
-      @team[:juniors].sort_by @all_tasks.size.reverse
+      @team[:juniors].sort_by { |all_tasks| [all_tasks.size.reverse] }
       @priority_array << @team[:juniors]
     when :developers
       @team[:developers].map.each { |dev| dev.can_add_task? }
-      @team[:developers].sort_by @all_tasks.size.reverse
+      @team[:developers].sort_by { |all_tasks| [all_tasks.size.reverse] }
       @priority_array << @team[:developers]
     when :seniors
       @team[:seniors].map.each { |dev| dev.can_add_task? }
-      @team[:seniors].sort_by @all_tasks.size.reverse
+      @team[:seniors].sort_by { |all_tasks| [all_tasks.size.reverse] }
       @priority_array << @team[:seniors]
     end
   end
@@ -183,30 +183,29 @@ attr_accessor :seniors, :developers, :juniors
       else
         @team_tasks[:juniors] << new_task
         @team.on_task(:junior).call
-        @team.priority.shift
+        @priority_array.shift
       end
     when Developer
       @team_tasks[:developers] << new_task
       puts '%s: добавлена задача "%s". Всего в списке задач: %i' % [@name[:developer], new_task, @all_tasks.size]
-      @team.priority.shift
+      @priority_array.shift
     when SeniorDeveloper
       @team_tasks[:seniors] << new_task
       @team.on_task(:senior).call
-      @team.priority.shift
+      @priority_array.shift
     end
   end
 
-  def on_task(dev, &block)
+ def on_task(dev, &block)
     on_task(dev).call &block
   end
 
   def all
-    @team[:juniors, :developers, :seniors]
     @team.juniors.developers.seniors
   end
 
   def report
-    @team.each { |dev| puts dev.class @all_tasks }
+    @team.each { |dev| puts "#{dev.name}: #{@all_tasks}" }
   end
 
 end
