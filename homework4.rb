@@ -182,7 +182,7 @@ attr_accessor :seniors, :developers, :juniors
         raise ArgumentError, 'Слишком сложно!'
       else
         @team_tasks[:juniors] << new_task
-        @team.on_task(:junior).call
+        @team.on_task(:junior).call(dev, new_task)
         @priority_array.shift
       end
     when Developer
@@ -191,13 +191,13 @@ attr_accessor :seniors, :developers, :juniors
       @priority_array.shift
     when SeniorDeveloper
       @team_tasks[:seniors] << new_task
-      @team.on_task(:senior).call
+      @team.on_task(:senior).call(dev, new_task)
       @priority_array.shift
     end
   end
 
- def on_task(dev, &block)
-    on_task(dev).call &block
+  def on_task(dev, &block)
+    @team[dev] = block
   end
 
   def all
