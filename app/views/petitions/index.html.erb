@@ -1,3 +1,19 @@
-<p>
-  <%= params %>
-</p>
+<h1>Petitions</h1>
+
+<table>
+  <th>
+    <tr>
+      <td>Title</td>
+      <td>Description</td>
+    </tr>
+  </th>
+  <tbody>
+    <tr>
+      <% @petitions.each do |petition| %>
+      <td><%= petition.title %></td>
+      <td><%= petition.description %></td>
+      <% end %>
+    </tr>
+  </tbody>
+
+</table>

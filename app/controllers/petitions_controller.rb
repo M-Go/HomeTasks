@@ -1,6 +1,6 @@
 class PetitionsController < ApplicationController
 def index
-  render json: session
+  @petitions = Petition.all
 end
 
 def show
