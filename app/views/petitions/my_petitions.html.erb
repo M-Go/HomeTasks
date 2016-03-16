@@ -1,0 +1,15 @@
+<h1>Мои петиции</h1>
+
+<table class="table">
+  <thead>
+  <tr>
+    <th>Петиция</th>
+    <th>Голоса</th>
+    <th>Дата создания</th>
+    <th colspan="2" class="text-center">Действия</th>
+  </tr>
+  </thead>
+  <% @petitions.each do |petition| %>
+      <%= render 'my_petition', petition: petition %>
+  <% end %>
+</table>
